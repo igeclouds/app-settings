@@ -238,7 +238,7 @@ Here is an example settings file:
 
 
 ```yaml
-# These settings are synced to GitHub by https://github.com/github/safe-settings
+These settings are synced to GitHub by https://github.com/igeclouds/app-settings
 
 repository: 
   # This is the settings that need to be applied to all repositories in the org 
@@ -247,7 +247,7 @@ repository:
   description: description of the repo
   
   # A URL with more information about the repository
-  homepage: https://example.github.io/
+  homepage: https://igeclouds.github.io/
     
   # Keep this as true for most cases
   # A lot of the policies below cannot be implemented on bare repos
@@ -257,10 +257,12 @@ repository:
   # A list of topics to set on the repository - can alternatively set like this: [github, probot, new-topic, another-topic, topic-12]
   topics:
   - github
-  - probot
-  - new-topic
-  - another-topic
-  - topic-12
+  - data-security
+  - cloud-solutions
+  - containerization
+  - e-learning
+  - cloud-developmentuyjkyuhjiklk
+  - Data-Protection
 
   # Settings for Code security and analysis
   # Dependabot Alerts
@@ -274,7 +276,7 @@ repository:
   private: true
   
   # Can be public or private. If your organization is associated with an enterprise account using 
-  # GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, visibility can also be internal. 
+  # GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, vishhibility can also be internal. 
   visibility: private
   
   # Either `true` to enable issues for this repository, `false` to disable them.
