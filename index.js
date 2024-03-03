@@ -108,7 +108,7 @@ module.exports = (robot, { getRouter }, Settings = require('./lib/settings')) =>
   }
 
   function getAllChangedSubOrgConfigs (payload) {
-    const settingPattern = new Glob('.github/suborgs/*.yml')
+    const settingPattern = new Glob(`${env.CONFIG_PATH}/suborgs/*.yml`)
     // Changes will be an array of files that were added
     const added = payload.commits.map(c => {
       return (c.added.filter(s => {
@@ -132,7 +132,7 @@ module.exports = (robot, { getRouter }, Settings = require('./lib/settings')) =>
   }
 
   function getAllChangedRepoConfigs (payload, owner) {
-    const settingPattern = new Glob('.github/repos/*.yml')
+    const settingPattern = new Glob(`${env.CONFIG_PATH}/repos/*.yml`)
     // Changes will be an array of files that were added
     const added = payload.commits.map(c => {
       return (c.added.filter(s => {
@@ -428,6 +428,11 @@ module.exports = (robot, { getRouter }, Settings = require('./lib/settings')) =>
       return
     }
 
+    if (check_run.status === 'completed') {
+      robot.log.debug(' Checkrun created as completed, returning')
+      return
+    }
+
     const adminRepo = repository.name === env.ADMIN_REPO
     robot.log.debug(`Is Admin repo event ${adminRepo}`)
     if (!adminRepo) {
@@ -468,14 +473,14 @@ module.exports = (robot, { getRouter }, Settings = require('./lib/settings')) =>
       return syncAllSettings(true, context, context.repo(), pull_request.head.ref)
     }
 
-    const repoChanges = getChangedRepoConfigName(new Glob('.github/repos/*.yml'), files, context.repo().owner)
+    const repoChanges = getChangedRepoConfigName(new Glob(`${env.CONFIG_PATH}/repos/*.yml`), files, context.repo().owner)
     if (repoChanges.length > 0) {
       return Promise.all(repoChanges.map(repo => {
         return syncSettings(true, context, repo, pull_request.head.ref)
       }))
     }
 
-    const subOrgChanges = getChangedSubOrgConfigName(new Glob('.github/suborgs/*.yml'), files, context.repo().owner)
+    const subOrgChanges = getChangedSubOrgConfigName(new Glob(`${env.CONFIG_PATH}/suborgs/*.yml`), files, context.repo().owner)
     if (subOrgChanges.length) {
       return Promise.all(subOrgChanges.map(suborg => {
         return syncSubOrgSettings(true, context, suborg, context.repo(), pull_request.head.ref)
